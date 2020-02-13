@@ -41,6 +41,7 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'ws4redis',
 ]
 
 LOCAL_APPS = [
@@ -55,6 +56,8 @@ SHARED_APPS = [
     'tenant_schemas',
     'empresa',
     'pasarelas',
+    
+
 ] + DJANGO_APPS
 
 TENANT_PROJECT_APPS = [
@@ -67,6 +70,8 @@ TENANT_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.sessions',
+    'ws4redis',
+
 ] + TENANT_PROJECT_APPS
 
 TENANT_MODEL = "empresa.Empresa"
@@ -95,6 +100,8 @@ TEMPLATES = [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
+                'ws4redis.context_processors.default',
+
                 'django.contrib.messages.context_processors.messages',
             ],
         },
@@ -132,7 +139,7 @@ DATABASE_ROUTERS = (
 )
 
 # Password validation
-# https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
+# https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-valid
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -176,6 +183,28 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'media/media')
+
+SESSION_ENGINE = 'redis_sessions.session'
+
+SESSION_REDIS_PREFIX = 'session'
+WS4REDIS_HEARTBEAT = '--heartbeat--'
+
+WEBSOCKET_URL = '/ws/'
+WS4REDIS_CONNECTION = {
+    'host': '127.0.0.1',
+    'port': 6379,
+    'db': 1,
+}
+WSGI_APPLICATION = 'ws4redis.django_runserver.application'
+
+SESSION_ENGINE = 'redis_sessions.session'
+SESSION_REDIS = {
+    'host': '127.0.0.1',
+    'port': 6379,
+    'db': 1,
+    'prefix': 'session',
+}
+
 
 if DEBUG:
     INTERNAL_IPS = ('127.0.0.1',)

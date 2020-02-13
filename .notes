@@ -1,0 +1,19 @@
+mkvirtualenv --python=/usr/bin/python3 tenant3
+
+
+sudo apt-get install postgresql
+sudo apt-get install python-psycopg2
+sudo apt-get install libpq-dev
+
+# crear tenants
+
+from empresa.models import Empresa
+
+Empresa.generar_empresas_random()
+
+
+# crear superusuario
+
+./manage.py createsuperuser
+
+nupython
